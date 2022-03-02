@@ -1,0 +1,71 @@
+<!doctype html>  
+<html>  
+<head>    
+<meta charset="utf-8">  
+<title>个人中心</title> 
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=1400">    
+<meta name="format-detection" content="telephone=no" />  
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="HandheldFriendly" content="true">
+<!-- 微软的老式浏览器 -->
+<meta name="MobileOptimized" content="320">
+<!-- UC强制全屏 -->
+<meta name="full-screen" content="yes">
+<!-- QQ强制全屏 -->
+<meta name="x5-fullscreen" content="true">  
+<script type="text/javascript" src="__JS__/jquery.min.js"></script>
+
+</head>  
+<body>
+<h2>个人中心</h2>
+<ul>
+	<li>用户id：<span id="id1"></span></li>
+	<li>姓名：<span id="id2"></span></li>
+	<li>性别：<span id="id3"></span></li>
+</ul>
+</body>
+<script>
+$(document).ready(function(){
+	var token = getCookie('jwt');
+	//alert(token);
+	$.ajax({
+		url:'http://www.pengcms.com/getinfo',
+		type:'POST',
+		headers:{
+			'Authorization':token
+		},
+		dataType: "json",
+		success:function(res) {
+			//console.log(res);
+			var sex ='';
+		  	$("#id1").html(res.data.user_id);
+			$("#id2").html(res.data.username);
+			if(res.data.sex==1){
+				sex = '男';
+			}else{
+				sex = '女';
+			}
+			$("#id3").html(sex);
+		}
+	});
+			
+})
+
+
+function getCookie(name)
+{
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+	if(arr=document.cookie.match(reg))
+		return unescape(arr[2]);
+	else
+		return null;
+}
+	
+	
+
+
+	
+</script>
+</html>
